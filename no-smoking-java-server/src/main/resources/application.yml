@@ -1,0 +1,70 @@
+application:
+  security:
+    jwt:
+      secret: Y2lhby1tb25kby1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zZWdyZXRv
+      expiration-millis: 360000
+  database:
+    name: no_smoking
+    url: jdbc:postgresql://127.0.0.1:5433/${application.database.name}
+    username: postgres
+    password: postgres
+    driver: org.postgresql.Driver
+server:
+  port: 8081
+spring:
+  mail:
+    host: smtps.gmail.com
+    port: 587
+    username: your-email@gmail.com
+    password: your-app-password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable: false
+  application:
+    name: no-smoking-java-server
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: validate
+  main:
+    web-application-type: servlet
+  datasource:
+    driverClassName: ${application.database.driver}
+    url: ${application.database.url}
+    username: ${application.database.username}
+    password: ${application.database.password}
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog.master.xml
+    enabled: true
+    show-summary: summary
+    clear-checksums: false
+    drop-first: false
+    show-summary-output: console
+    ui-service: console
+    test-rollback-on-update: false
+    url: ${application.database.url}
+    user: ${application.database.username}
+    password: ${application.database.password}
+    driver-class-name: ${application.database.driver}
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.web: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+    com:
+      andreidodu:
+        no_smoking: DEBUG

@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  no-smoking-dbms:
+    image: postgres:14
+    container_name: no-smoking-dbms
+    restart: no
+    network_mode: host
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: no_smoking
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    command: [ "postgres", "-c", "port=5433", "-c", "listen_addresses=127.0.0.1" ]
+  no-smoking-python-server:
+    build: ./app
+    container_name: no-smoking-python-server
+    restart: always
+    ports:
+      - "8000:8000"
+    network_mode: host
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5433
+      DB_NAME: no_smoking
+    depends_on:
+      - no-smoking-dbms
+    volumes:
+      - ./models:/models
+volumes:
+  db_data:

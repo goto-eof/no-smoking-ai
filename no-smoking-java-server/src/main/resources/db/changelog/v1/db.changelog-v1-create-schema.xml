@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="ns-2025-04-27-001" author="Andrei Dodu">
+        <createTable tableName="ns_user">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="role" type="VARCHAR(255)" defaultValueComputed="'user'">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="insert_date" type="DATETIME"/>
+            <column name="update_date" type="DATETIME"/>
+            <column name="version" type="INT"/>
+        </createTable>
+        <addDefaultValue tableName="ns_user" columnName="insert_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_user" columnName="update_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_user" columnName="version" defaultValueNumeric="0"/>
+    </changeSet>
+
+    <changeSet id="ns-2025-04-28-001" author="Andrei Dodu">
+        <createTable tableName="ns_otp">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="otp" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiration_datetime" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="insert_date" type="DATETIME"/>
+            <column name="update_date" type="DATETIME"/>
+            <column name="version" type="INT"/>
+        </createTable>
+        <addDefaultValue tableName="ns_user" columnName="insert_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_user" columnName="update_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_user" columnName="version" defaultValueNumeric="0"/>
+
+        <addForeignKeyConstraint
+                constraintName="fk_otp_user"
+                baseTableName="ns_otp"
+                baseColumnNames="user_id"
+                referencedTableName="ns_user"
+                referencedColumnNames="id"
+                onDelete="NO ACTION"/>
+
+    </changeSet>
+
+
+    <changeSet id="ns-2025-04-28-002" author="Andrei Dodu">
+        <createTable tableName="ns_token">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiration_datetime" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="insert_date" type="DATETIME"/>
+            <column name="update_date" type="DATETIME"/>
+            <column name="version" type="INT"/>
+        </createTable>
+        <addDefaultValue tableName="ns_user" columnName="insert_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_user" columnName="update_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_user" columnName="version" defaultValueNumeric="0"/>
+        <addForeignKeyConstraint
+                constraintName="fk_token_user"
+                baseTableName="ns_token"
+                baseColumnNames="user_id"
+                referencedTableName="ns_user"
+                referencedColumnNames="id"
+                onDelete="NO ACTION"/>
+
+    </changeSet>
+
+    <changeSet id="ns-2025-04-27-002" author="Andrei Dodu">
+        <createTable tableName="ns_daily_smoking_data">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekday" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_holiday" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cigarettes_smoked_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="insert_date" type="DATETIME"/>
+            <column name="update_date" type="DATETIME"/>
+            <column name="version" type="INT"/>
+        </createTable>
+        <addDefaultValue tableName="ns_daily_smoking_data" columnName="insert_date"
+                         defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_daily_smoking_data" columnName="update_date"
+                         defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_daily_smoking_data" columnName="version" defaultValueNumeric="0"/>
+        <addForeignKeyConstraint
+                constraintName="fk_dailysmokingdata_user"
+                baseTableName="ns_daily_smoking_data"
+                baseColumnNames="user_id"
+                referencedTableName="ns_user"
+                referencedColumnNames="id"
+                onDelete="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="ns-2025-04-27-003" author="Andrei Dodu">
+        <createTable tableName="ns_smoking_data">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_time" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="insert_date" type="DATETIME"/>
+            <column name="update_date" type="DATETIME"/>
+            <column name="version" type="INT"/>
+        </createTable>
+        <addDefaultValue tableName="ns_smoking_data" columnName="insert_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_smoking_data" columnName="update_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="ns_smoking_data" columnName="version" defaultValueNumeric="0"/>
+        <addForeignKeyConstraint
+                constraintName="fk_smokingdata_user"
+                baseTableName="ns_smoking_data"
+                baseColumnNames="user_id"
+                referencedTableName="ns_user"
+                referencedColumnNames="id"
+                onDelete="NO ACTION"/>
+    </changeSet>
+
+
+    <changeSet id="ns-2025-04-27-004" author="Andrei Dodu">
+        <insert tableName="ns_user">
+            <column name="username" value="mario.rossi"/>
+            <column name="password" value="hello"/>
+            <column name="role" value="user"/>
+            <column name="email" value="mario.rossi@email.com"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

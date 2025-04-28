@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: no-smoking-java-desktop
+  main:
+    web-application-type: none
+    com:
+      andreidodu:
+        no_smoking: DEBUG
