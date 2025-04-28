@@ -1,4 +1,6 @@
 application:
+  ai:
+    endpoint: http://localhost:8000
   security:
     jwt:
       secret: Y2lhby1tb25kby1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zZWdyZXRv
