@@ -1,7 +1,7 @@
 package com.andreidodu.desktop.window;
 
 import com.andreidodu.common.dto.SmokingDataDTO;
-import com.andreidodu.desktop.service.SmokingDataService;
+import com.andreidodu.desktop.client.NoSmokingApiClient;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class Window extends JFrame {
-    private final SmokingDataService smokingDataService;
+    private final NoSmokingApiClient noSmokingApiClient;
 
     private JTabbedPane tabbedPane1;
     private JPanel mainPanel;
@@ -44,26 +44,33 @@ public class Window extends JFrame {
 
         LocalDateTime now = LocalDateTime.now();
         log.info("weekday: {}", now.getDayOfWeek().getValue());
-        counter.setText(String.valueOf(smokingDataService.countByDate(1, now.toLocalDate())));
-        prediction.setText("" + smokingDataService.getTodayPrediction(1, now.toLocalDate()));
-        smokingDataService.getLastItemInserted(1).ifPresent(lastSmokingData -> this.lastSmokingData = lastSmokingData);
+
+        updateCounters();
+
+        noSmokingApiClient.lastInserted()
+                .ifPresent(lastSmokingData -> this.lastSmokingData = lastSmokingData);
 
         addButton.addActionListener(e -> {
-            Integer predictionNumber = smokingDataService.addAndPopulateAndTrainAndRetrieveDailySmokingData(1, now);
-            prediction.setText("" + predictionNumber);
-            counter.setText(String.valueOf(smokingDataService.countByDate(1, now.toLocalDate())));
-            smokingDataService.getLastItemInserted(1).ifPresent(lastSmokingData -> this.lastSmokingData = lastSmokingData);
+            updateCounters();
+            noSmokingApiClient.lastInserted().ifPresent(lastSmokingData -> this.lastSmokingData = lastSmokingData);
 
         });
 
         removeButton.addActionListener(e -> {
-            smokingDataService.deleteLastInserted(1);
-            counter.setText(String.valueOf(smokingDataService.countByDate(1, now.toLocalDate())));
-            smokingDataService.getLastItemInserted(1).ifPresent(lastSmokingData -> {
+            updateCounters();
+            noSmokingApiClient.lastInserted().ifPresent(lastSmokingData -> {
                 this.lastSmokingData = lastSmokingData;
             });
 
         });
+    }
+
+    private void updateCounters() {
+        Optional.ofNullable(noSmokingApiClient.getCounters())
+                .ifPresent(counters -> {
+                    counter.setText(String.valueOf(counters.getCurrentCount()));
+                    prediction.setText("" + counters.getPredictionCount());
+                });
     }
 
 

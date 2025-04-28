@@ -2,6 +2,7 @@ package com.andreidodu.server.service;
 
 import com.andreidodu.common.dto.DailySmokingDataDTO;
 import com.andreidodu.common.dto.SmokingDataDTO;
+import com.andreidodu.common.dto.api.CountersDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,5 +25,7 @@ public interface SmokingDataService {
 
     String trainModelByUserId(Integer userId);
 
-    Integer getPrediction(Integer userId, LocalDate date);
+    Integer getPrediction(LocalDate date);
+
+    CountersDTO getCounters();
 }

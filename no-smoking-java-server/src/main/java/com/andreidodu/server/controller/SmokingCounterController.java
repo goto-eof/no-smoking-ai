@@ -1,12 +1,11 @@
 package com.andreidodu.server.controller;
 
 import com.andreidodu.common.dto.SmokingDataDTO;
+import com.andreidodu.common.dto.api.CountersDTO;
 import com.andreidodu.server.service.SmokingDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -21,9 +20,18 @@ public class SmokingCounterController {
         return ResponseEntity.ok(smokingDataService.add());
     }
 
-    @PostMapping("/minus")
+    @DeleteMapping("/minus")
     public ResponseEntity<Optional<SmokingDataDTO>> minus() {
         return ResponseEntity.ok(smokingDataService.deleteLastInserted());
     }
 
+    @GetMapping("/lastInserted")
+    public ResponseEntity<Optional<SmokingDataDTO>> lastInserted() {
+        return ResponseEntity.ok(smokingDataService.getLastItemInserted());
+    }
+
+    @GetMapping("/counters")
+    public ResponseEntity<CountersDTO> getCounters() {
+        return ResponseEntity.ok(smokingDataService.getCounters());
+    }
 }

@@ -1,11 +1,10 @@
 package com.andreidodu.desktop.util;
 
 
-import com.andreidodu.desktop.service.SmokingDataService;
+import com.andreidodu.desktop.client.NoSmokingApiClient;
 import com.andreidodu.desktop.window.Window;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -37,13 +36,10 @@ public class GuiStarterConfig {
                     System.err.println("GUI error: " + e.getMessage());
                     tryToApplyDefaultTheme();
                 }
-                final SmokingDataService smokingDataService = context.getBean(SmokingDataService.class);
+                final NoSmokingApiClient noSmokingApiClient = context.getBean(NoSmokingApiClient.class);
                 ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-                Window window = new Window(smokingDataService);
+                Window window = new Window(noSmokingApiClient);
                 beanFactory.registerSingleton("window", window);
-
-                ScheduledAnnotationBeanPostProcessor postProcessor = context.getBean(ScheduledAnnotationBeanPostProcessor.class);
-                postProcessor.postProcessAfterInitialization(window, "window");
 
                 Window windowBean = context.getBean(Window.class);
                 windowBean.run();

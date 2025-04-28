@@ -2,6 +2,7 @@ package com.andreidodu.server.service.impl;
 
 import com.andreidodu.common.dto.DailySmokingDataDTO;
 import com.andreidodu.common.dto.SmokingDataDTO;
+import com.andreidodu.common.dto.api.CountersDTO;
 import com.andreidodu.server.entity.DailySmokingData;
 import com.andreidodu.server.entity.SmokingData;
 import com.andreidodu.server.entity.User;
@@ -140,13 +141,13 @@ public class SmokingDataServiceImpl implements SmokingDataService {
         add();
         populateDailySmokingData(dateTime);
         trainModelByUserId(user.getId());
-        return getPrediction(user.getId(), dateTime.toLocalDate());
+        return getPrediction(dateTime.toLocalDate());
     }
 
     @Override
     public Integer getPredictionByDate(int userId, LocalDate now) {
         try {
-            return getPrediction(userId, now);
+            return getPrediction(now);
         } catch (Exception e) {
             log.error(e.getMessage());
             return 0;
@@ -163,11 +164,12 @@ public class SmokingDataServiceImpl implements SmokingDataService {
     }
 
     @Override
-    public Integer getPrediction(Integer userId, LocalDate date) {
+    public Integer getPrediction(LocalDate date) {
+        User user = getAuthenticatedUser();
         RestTemplate restTemplate = new RestTemplate();
 
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("user_id", userId);
+        requestBody.put("user_id", user.getId());
         requestBody.put("weekday", date.getDayOfWeek().getValue());
         requestBody.put("is_holiday", isHoliday(date));
 
@@ -192,6 +194,16 @@ public class SmokingDataServiceImpl implements SmokingDataService {
             System.out.println("Error: " + body);
             return -1;
         }
+    }
+
+    @Override
+    public CountersDTO getCounters() {
+        LocalDate now = LocalDate.now();
+        return CountersDTO
+                .builder()
+                .currentCount(countByDate(now))
+                .predictionCount(getPrediction(now))
+                .build();
     }
 
 }
