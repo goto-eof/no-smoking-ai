@@ -19,6 +19,7 @@ public class ScheduledTraining {
 
     /**
      * TODO it is better to create a spring job
+     * TODO need to increase also performance here: execute the job only for yesterday and not for 31 days
      */
     @Scheduled(cron = "0 0 0 * * *")
     public void runTrainerNightly() {

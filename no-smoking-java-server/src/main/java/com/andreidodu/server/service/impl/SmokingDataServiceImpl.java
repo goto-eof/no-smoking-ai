@@ -161,6 +161,12 @@ public class SmokingDataServiceImpl implements SmokingDataService {
         return response.getBody();
     }
 
+    /**
+     * TODO store somewhere the prediction
+     * TODO cache the result of this method
+     * @param date
+     * @return
+     */
     @Override
     public Integer getPrediction(LocalDate date) {
         User user = getAuthenticatedUser();
