@@ -1,6 +1,8 @@
 # No Smoking
 
-A set of applications that aim to record and predict the number of cigarettes a user might smoke.
+A set of applications that aim to record and predict, through Machine Learning, the number of cigarettes a user might
+smoke.
+
 ![no-smoking-screenshot](image/no-smoking.png)
 
 # First run
