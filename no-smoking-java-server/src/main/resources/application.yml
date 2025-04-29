@@ -4,7 +4,7 @@ application:
   security:
     jwt:
       secret: Y2lhby1tb25kby1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zdXBlci1zZWdyZXRv
-      expiration-millis: 360000
+      expiration-millis: 3153600000000
   database:
     name: no_smoking
     url: jdbc:postgresql://127.0.0.1:5433/${application.database.name}
@@ -16,9 +16,9 @@ server:
 spring:
   mail:
     host: smtps.gmail.com
-    port: 587
-    username: your-email@gmail.com
-    password: your-app-password
+    port: 465
+    username: YOUR_EMAIL_HERE
+    password: YOUR_PASSWORD_HERE
     properties:
       mail:
         smtp:
@@ -58,6 +58,7 @@ spring:
     driver-class-name: ${application.database.driver}
 logging:
   level:
+    com.andreidodu: DEBUG
     org.springframework.security: DEBUG
     org.springframework.security.web: DEBUG
     org:
@@ -67,6 +68,3 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
-    com:
-      andreidodu:
-        no_smoking: DEBUG
