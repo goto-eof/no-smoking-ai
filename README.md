@@ -15,8 +15,8 @@ smoke.
 
 ```bash
 sudo docker compose -f docker-compose.db.yml up -d --build
-sudo docker compose -f docker-compose.java-server.yml -f up -d --build
-sudo docker compose -f no-smoking-python-server/docker-compose.python-server.yml  up --build
+sudo docker compose -f docker-compose.java-server.yml up -d --build
+sudo docker compose -f no-smoking-python-server/docker-compose.python-server.yml up -d --build
 ```
 
 - edit the `no-smoking-java-server/src/main/resources/application.yml` file which belongs to the
