@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@FeignClient(name = "noSmokingApiClient", url = "http://localhost:8081")
+@FeignClient(name = "noSmokingApiClient", url = "${application.server.api.url}")
 public interface NoSmokingApiClient {
 
     @PostMapping("/api/v1/otp/submit")
