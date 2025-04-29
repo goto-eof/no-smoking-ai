@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: no-smoking-python-server
-    restart: always
+    restart: no
     ports:
       - "8000:8000"
     network_mode: host
