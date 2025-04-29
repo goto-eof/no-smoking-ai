@@ -14,3 +14,7 @@ smoke.
 - edit the `no-smoking-java-server/src/main/resources/application.yml` file which belongs to the
   `no-smoking-java-server` module.
 - run `no-smoking-java-server` and `no-smoking-java-desktop` projects.
+
+# Technologies/Tools
+
+Java, Spring Boot, OpenFeign, hibernate, Spring JPA, PostgreSQL, lombok, git, python, swing.
