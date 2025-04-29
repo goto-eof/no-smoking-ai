@@ -134,25 +134,6 @@ public class SmokingDataServiceImpl implements SmokingDataService {
     }
 
     @Override
-    public Integer addAndPopulateAndTrainAndRetrieveDailySmokingData(LocalDateTime dateTime) {
-        User user = getAuthenticatedUser();
-        add();
-        populateDailySmokingData(user, dateTime);
-        trainModelByUserId(user.getId());
-        return getPrediction(dateTime.toLocalDate());
-    }
-
-    @Override
-    public Integer getPredictionByDate(int userId, LocalDate now) {
-        try {
-            return getPrediction(now);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return 0;
-        }
-    }
-
-    @Override
     public String trainModelByUserId(Integer userId) {
         String url = aiEndPoint + "/train/" + userId;
         log.debug("trainModelByUserId: {}", url);

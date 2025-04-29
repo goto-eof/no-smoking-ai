@@ -27,9 +27,8 @@ public class ScheduledTraining {
                 .forEach(user -> {
                     log.debug("Running trainer for user {}", user.getUsername());
                     IntStream.range(0, 31)
-                            .forEach(day -> {
-                                smokingDataService.populateDailySmokingData(user, LocalDateTime.now().minusDays(day));
-                            });
+                            .forEach(day -> smokingDataService.populateDailySmokingData(user, LocalDateTime.now().minusDays(day)));
+
                     smokingDataService.trainModelByUserId(user.getId());
                 });
 

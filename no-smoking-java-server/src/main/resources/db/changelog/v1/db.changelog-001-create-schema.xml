@@ -163,14 +163,4 @@
                 onDelete="NO ACTION"/>
     </changeSet>
 
-
-    <changeSet id="ns-2025-04-27-004" author="Andrei Dodu">
-        <insert tableName="ns_user">
-            <column name="username" value="mario.rossi"/>
-            <column name="password" value="hello"/>
-            <column name="role" value="user"/>
-            <column name="email" value="mario.rossi@email.com"/>
-        </insert>
-    </changeSet>
-
 </databaseChangeLog>

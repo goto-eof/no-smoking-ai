@@ -5,7 +5,6 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -54,18 +53,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public UserData extractUserDataFromAuthentication(Authentication authentication) {
-        String token = extractTokenFromAuthentication(authentication);
-        Claims claims = extractAllClaims(token);
-
-        Integer userId = claims.get("userId", Integer.class);
-        String email = claims.get("email", String.class);
-
-        return new UserData(userId, email);
-    }
-
-
-    @Override
     public Optional<Claims> parseToken(String token) {
         try {
             JwtParser parser = Jwts
@@ -79,29 +66,5 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
-    private String extractTokenFromAuthentication(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("Authentication is missing or invalid");
-        }
-        return authentication.getCredentials().toString();
-    }
-
-    public static class UserData {
-        private final Integer userId;
-        private final String email;
-
-        public UserData(Integer userId, String email) {
-            this.userId = userId;
-            this.email = email;
-        }
-
-        public Integer getUserId() {
-            return userId;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-    }
 }
 

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface SmokingDataService {
+
     SmokingDataDTO add();
 
     Optional<SmokingDataDTO> deleteLastInserted();
@@ -20,13 +21,10 @@ public interface SmokingDataService {
 
     DailySmokingDataDTO populateDailySmokingData(User user, LocalDateTime dateTime);
 
-    Integer addAndPopulateAndTrainAndRetrieveDailySmokingData(LocalDateTime dateTime);
-
-    Integer getPredictionByDate(int userId, LocalDate now);
-
     String trainModelByUserId(Integer userId);
 
     Integer getPrediction(LocalDate date);
 
     CountersDTO getCounters();
+
 }

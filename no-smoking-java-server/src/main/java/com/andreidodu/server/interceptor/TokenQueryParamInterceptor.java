@@ -41,17 +41,16 @@ public class TokenQueryParamInterceptor extends OncePerRequestFilter {
         String token = request.getParameter("token");
         log.debug("requestToken: {}", token);
 
-        if (isValidToken(token)) {
-            if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-                Authentication authentication = buildAuthenticationFromToken(token);
-                if (authentication != null) {
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            }
+        if (isValidToken(token) && isNotAuthenticated()) {
+            Optional.ofNullable(buildAuthenticationFromToken(token))
+                    .ifPresent(authentication -> SecurityContextHolder.getContext().setAuthentication(authentication));
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private static boolean isNotAuthenticated() {
+        return SecurityContextHolder.getContext().getAuthentication() == null;
     }
 
     private Authentication buildAuthenticationFromToken(String token) {
