@@ -2,7 +2,7 @@ services:
   no-smoking-python-server:
     build:
       context: .
-      dockerfile: app/Dockerfile
+      dockerfile: Dockerfile
     container_name: no-smoking-python-server
     restart: always
     ports:
