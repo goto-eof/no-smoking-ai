@@ -1,5 +1,0 @@
-rootProject.name = 'ai-no-smoking'
-
-include ':no-smoking-java-common'
-include ':no-smoking-java-desktop'
-include ':no-smoking-java-server'
