@@ -1,15 +1,13 @@
 package com.andreidodu.common.dto;
 
 import com.andreidodu.common.dto.common.DTOCommon;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailySmokingDataDTO extends DTOCommon {

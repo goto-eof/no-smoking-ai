@@ -7,7 +7,8 @@ smoke.
 
 # First run
 
-- build `no-smoking-java-common`. Gradle will create a jar file in the .m2 directory that will be used by
+- build `no-smoking-java-common` by executing the following command `gradle publishToMavenLocal`. Gradle will create a
+  jar file in the .m2 directory that will be used by
   `no-smoking-java-desktop` and `no-smoking-java-server` modules.
 - move to the `no-smoking-python-server` and run `sudo docker compose up -d` in order to create the containers defined
   in the `docker-compose.yml` file.
@@ -17,4 +18,5 @@ smoke.
 
 # Technologies/Tools
 
-Java, Spring Boot, OpenFeign, hibernate, Spring JPA, PostgreSQL, lombok, git, python, swing.
+Java, Spring Boot, OpenFeign, hibernate, Spring JPA, Spring Security (OTP authentication), PostgreSQL, lombok, git,
+python, swing, Lombok.

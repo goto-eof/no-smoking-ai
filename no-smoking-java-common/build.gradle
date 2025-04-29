@@ -3,16 +3,20 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.andreidodu'  // Change to your actual group
+group = 'com.andreidodu'
 version = '1.0.0'
+
+ext {
+    lombokVersion = '1.18.30'
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
 
 java {
