@@ -3,10 +3,7 @@ package com.andreidodu.desktop.client;
 import com.andreidodu.common.dto.SmokingDataDTO;
 import com.andreidodu.common.dto.api.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -14,20 +11,20 @@ import java.util.Optional;
 public interface NoSmokingApiClient {
 
     @PostMapping("/api/v1/otp/submit")
-    OtpResponseDTO sendOtp(@RequestBody OtpRequestDTO otpRequestDTO);
+    OtpResponseDTO sendEmail(@RequestBody OtpRequestDTO otpRequestDTO);
 
     @PostMapping("/api/v1/otp/verify")
-    OtpValidationResponseDTO sendOtp(@RequestBody OtpValidationRequestDTO otpRequestDTO);
+    OtpValidationResponseDTO verifyOtp(@RequestBody OtpValidationRequestDTO otpRequestDTO);
 
     @PostMapping("/api/v1/cigarette/plus")
-    SmokingDataDTO plus();
+    SmokingDataDTO plus(@RequestParam("token") String token);
 
     @DeleteMapping("/api/v1/cigarette/minus")
-    Optional<SmokingDataDTO> minus();
+    Optional<SmokingDataDTO> minus(@RequestParam("token") String token);
 
     @GetMapping("/api/v1/cigarette/lastInserted")
-    Optional<SmokingDataDTO> lastInserted();
+    Optional<SmokingDataDTO> lastInserted(@RequestParam("token") String token);
 
     @GetMapping("/api/v1/cigarette/counters")
-    CountersDTO getCounters();
+    CountersDTO getCounters(@RequestParam("token") String token);
 }

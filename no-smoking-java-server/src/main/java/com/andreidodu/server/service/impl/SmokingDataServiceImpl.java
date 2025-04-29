@@ -102,14 +102,12 @@ public class SmokingDataServiceImpl implements SmokingDataService {
     }
 
     @Override
-    public DailySmokingDataDTO populateDailySmokingData(LocalDateTime dateTime) {
-        User user = getAuthenticatedUser();
-
+    public DailySmokingDataDTO populateDailySmokingData(User user, LocalDateTime dateTime) {
         // populate for yesterday
         dateTime = dateTime.minusDays(1);
         LocalDateTime start = dateTime.minusDays(1).toLocalDate().atStartOfDay();
         LocalDateTime end = start.plusDays(1);
-        Integer countByDate = smokingDataRepository.countByUser_IdAndCreatedDateBetween(user.getId(), start, end);
+        Integer countByDate = smokingDataRepository.countByUser_IdAndDateTimeBetween(user.getId(), start, end);
 
         LocalDate localDate = dateTime.toLocalDate();
         Optional<DailySmokingData> dailySmokingDataOptional = dailySmokingDataRepository.findByUser_idAndDate(user.getId(), localDate);
@@ -139,7 +137,7 @@ public class SmokingDataServiceImpl implements SmokingDataService {
     public Integer addAndPopulateAndTrainAndRetrieveDailySmokingData(LocalDateTime dateTime) {
         User user = getAuthenticatedUser();
         add();
-        populateDailySmokingData(dateTime);
+        populateDailySmokingData(user, dateTime);
         trainModelByUserId(user.getId());
         return getPrediction(dateTime.toLocalDate());
     }
@@ -189,9 +187,11 @@ public class SmokingDataServiceImpl implements SmokingDataService {
 
         Map<String, Object> body = response.getBody();
         if (body != null && body.containsKey("predicted_cigarettes")) {
-            return (int) (Integer) body.get("predicted_cigarettes");
+            int predicted = (int) (Integer) body.get("predicted_cigarettes");
+            log.debug("predicted: {}", predicted);
+            return predicted;
         } else {
-            System.out.println("Error: " + body);
+            log.error("Error: " + body);
             return -1;
         }
     }

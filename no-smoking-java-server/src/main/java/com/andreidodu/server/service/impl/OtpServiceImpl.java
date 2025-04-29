@@ -51,7 +51,7 @@ public class OtpServiceImpl implements OtpService {
         otpModel = otpRepository.save(otpModel);
 
         return OtpResponseDTO.builder()
-                .uuid(uuid)
+                .result(true)
                 .build();
     }
 
@@ -69,29 +69,32 @@ public class OtpServiceImpl implements OtpService {
 
     @Override
     public OtpValidationResponseDTO validateOtp(OtpValidationRequestDTO otpValidationRequestDTO) {
-        Optional<Otp> otpOptional = otpRepository.findByOtpAndUuid(otpValidationRequestDTO.getOtp(), otpValidationRequestDTO.getUuid());
-        if (otpOptional.isPresent()) {
-            Otp otp = otpOptional.get();
-            User user = otp.getUser();
-            Date expirationDate = new Date(System.currentTimeMillis() + expirationMillis);
-            String jwt = jwtService.generateToken(user.getId(), user.getEmail(), expirationDate);
+        Optional<Otp> otpOptional = otpRepository.findByUser_EmailAndUuidAndExpirationDatetimeAfter(otpValidationRequestDTO.getEmail(), otpValidationRequestDTO.getUuid(), LocalDateTime.now());
 
-            Token tokenModel = new Token();
-            tokenModel.setToken(jwt);
-            tokenModel.setUser(user);
-            tokenModel.setExpirationDatetime(expirationDate.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime());
-            tokenRepository.save(tokenModel);
-
+        if (otpOptional.isEmpty()) {
             return OtpValidationResponseDTO
                     .builder()
-                    .token(jwt)
                     .build();
         }
+
+        Otp otp = otpOptional.get();
+        User user = otp.getUser();
+        Date expirationDate = new Date(System.currentTimeMillis() + expirationMillis);
+        String jwt = jwtService.generateToken(user.getId(), user.getEmail(), expirationDate);
+
+        Token tokenModel = new Token();
+        tokenModel.setToken(jwt);
+        tokenModel.setUser(user);
+        tokenModel.setExpirationDatetime(expirationDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime());
+        tokenRepository.save(tokenModel);
+
         return OtpValidationResponseDTO
                 .builder()
+                .token(jwt)
                 .build();
+
 
     }
 

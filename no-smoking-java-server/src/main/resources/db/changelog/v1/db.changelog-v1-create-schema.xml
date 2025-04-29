@@ -19,8 +19,8 @@
             <column name="password" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="role" type="VARCHAR(255)" defaultValueComputed="'user'">
-                <constraints nullable="false" unique="true"/>
+            <column name="role" type="VARCHAR(255)" defaultValueComputed="'USER'">
+                <constraints nullable="false" unique="false"/>
             </column>
             <column name="insert_date" type="DATETIME"/>
             <column name="update_date" type="DATETIME"/>

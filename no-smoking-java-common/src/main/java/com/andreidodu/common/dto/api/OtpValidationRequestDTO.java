@@ -1,13 +1,15 @@
 package com.andreidodu.common.dto.api;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OtpValidationRequestDTO {
 
-    private String otp;
     private String uuid;
+    private String email;
 
 }

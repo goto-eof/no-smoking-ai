@@ -1,8 +1,10 @@
 package com.andreidodu.desktop.util;
 
 
+import com.andreidodu.desktop.configuration.UserSettingsConfiguration;
+import com.andreidodu.desktop.gui.login.Login;
 import com.andreidodu.desktop.client.NoSmokingApiClient;
-import com.andreidodu.desktop.window.Window;
+import com.andreidodu.desktop.service.impl.UserSettingsServiceImpl;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -37,12 +39,14 @@ public class GuiStarterConfig {
                     tryToApplyDefaultTheme();
                 }
                 final NoSmokingApiClient noSmokingApiClient = context.getBean(NoSmokingApiClient.class);
+                final UserSettingsConfiguration userSettingsConfiguration = context.getBean(UserSettingsConfiguration.class);
+                final UserSettingsServiceImpl userSettingsService = context.getBean(UserSettingsServiceImpl.class);
                 ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-                Window window = new Window(noSmokingApiClient);
-                beanFactory.registerSingleton("window", window);
 
-                Window windowBean = context.getBean(Window.class);
-                windowBean.run();
+                Login login = new Login(context, noSmokingApiClient, userSettingsConfiguration, userSettingsService);
+                beanFactory.registerSingleton("login", login);
+                Login loginBean = context.getBean(Login.class);
+                loginBean.run();
             }
         });
     }

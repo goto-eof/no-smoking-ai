@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Component
@@ -16,12 +17,20 @@ public class ScheduledTraining {
     private final SmokingDataService smokingDataService;
     private final UserRepository userRepository;
 
+    /**
+     * TODO it is better to create a spring job
+     */
     @Scheduled(cron = "0 0 0 * * *")
     public void runTrainerNightly() {
-        userRepository.findAll().forEach(user -> {
-            smokingDataService.populateDailySmokingData(LocalDateTime.now());
-            smokingDataService.trainModelByUserId(user.getId());
-        });
+        userRepository.findAll()
+                .forEach(user -> {
+                    log.debug("Running trainer for user {}", user.getUsername());
+                    IntStream.range(0, 31)
+                            .forEach(day -> {
+                                smokingDataService.populateDailySmokingData(user, LocalDateTime.now().minusDays(day));
+                            });
+                    smokingDataService.trainModelByUserId(user.getId());
+                });
 
     }
 

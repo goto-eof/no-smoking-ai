@@ -78,6 +78,6 @@ def predict(req: PredictRequest):
 async def train_model(user_id: int):
     try:
         await train(user_id)
-        return {"message": f"✅ Model retrained successfully for user {user_id}"}
+        return {"message": f"Model retrained successfully for user {user_id}"}
     except Exception as e:
         return {"error": str(e)}

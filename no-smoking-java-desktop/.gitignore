@@ -16,7 +16,8 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+user-settings.properties
+no-smoking-java-desktop.log
 ### IntelliJ IDEA ###
 .idea
 *.iws

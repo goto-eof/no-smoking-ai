@@ -23,7 +23,7 @@ public class SmokingData extends ModelCommon {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
 }

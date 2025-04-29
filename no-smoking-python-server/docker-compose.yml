@@ -4,7 +4,7 @@ services:
   no-smoking-dbms:
     image: postgres:14
     container_name: no-smoking-dbms
-    restart: no
+    restart: always
     network_mode: host
     environment:
       POSTGRES_USER: postgres

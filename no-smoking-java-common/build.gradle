@@ -1,5 +1,13 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.andreidodu'  // Change to your actual group
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -10,4 +18,16 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
 }

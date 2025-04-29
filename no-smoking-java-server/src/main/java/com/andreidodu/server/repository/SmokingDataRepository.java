@@ -15,4 +15,6 @@ public interface SmokingDataRepository extends TransactionalRepository<SmokingDa
     Integer countByUser_IdAndCreatedDateBetween(int userId, LocalDateTime start, LocalDateTime end);
 
     int countByUserAndDateTimeIsBetween(User user, LocalDateTime start, LocalDateTime end);
+
+    Integer countByUser_IdAndDateTimeBetween(Integer id, LocalDateTime start, LocalDateTime end);
 }
