@@ -16,13 +16,17 @@ public class UserSettingsLoaderConfiguration {
     public static PropertySourcesPlaceholderConfigurer properties() throws IOException {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
         File file = new File("user-settings.properties");
-        if (!file.exists()) {
-            file.createNewFile();
-        }
+        createFileIfNotExists(file);
         Resource[] resources = new Resource[]{
-                new FileSystemResource("user-settings.properties") // Your custom file
+                new FileSystemResource("user-settings.properties")
         };
         configurer.setLocations(resources);
         return configurer;
+    }
+
+    private static void createFileIfNotExists(File file) throws IOException {
+        if (!file.exists()) {
+            file.createNewFile();
+        }
     }
 }
