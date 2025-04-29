@@ -25,7 +25,7 @@ public class EmailServiceImpl implements EmailService {
         message.setTo(to);
         message.setFrom(from);
         message.setSubject("Your OTP Code");
-        message.setText("OTP: " + otp + "\nUUID: " + uuid);
+        message.setText("OTP: " + uuid);
         mailSender.send(message);
         log.debug("Email sent!");
     }
