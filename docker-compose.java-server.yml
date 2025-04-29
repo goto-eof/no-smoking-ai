@@ -1,0 +1,25 @@
+services:
+  java-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: java-app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      JAVA_OPTS: >-
+        -XX:+UseG1GC
+        -XX:+UseStringDeduplication
+        -XX:MaxRAMPercentage=75.0
+        -Djava.security.egd=file:/dev/./urandom
+        -XshowSettings:vm
+        -Dspring.config.location=file:/app/application.yml
+    network_mode: host
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./no-smoking-java-server/src/main/resources/application.yml:/app/application.yml

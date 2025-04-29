@@ -10,8 +10,15 @@ smoke.
 - build `no-smoking-java-common` by executing the following command `gradle publishToMavenLocal`. Gradle will create a
   jar file in the .m2 directory that will be used by
   `no-smoking-java-desktop` and `no-smoking-java-server` modules.
-- move to the `no-smoking-python-server` and run `sudo docker compose up -d` in order to create the containers defined
-  in the `docker-compose.yml` file.
+- run `sudo docker compose up -d` in order to create the containers defined
+  in the `docker-compose.yml` files.
+
+```bash
+sudo docker compose -f docker-compose.db.yml up -d --build
+sudo docker compose -f docker-compose.java-server.yml -f up -d --build
+sudo docker compose -f no-smoking-python-server/docker-compose.python-server.yml  up --build
+```
+
 - edit the `no-smoking-java-server/src/main/resources/application.yml` file which belongs to the
   `no-smoking-java-server` module.
 - run `no-smoking-java-server` and `no-smoking-java-desktop` projects.

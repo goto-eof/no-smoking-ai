@@ -1,0 +1,18 @@
+services:
+  no-smoking-python-server:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    container_name: no-smoking-python-server
+    restart: always
+    ports:
+      - "8000:8000"
+    network_mode: host
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5433
+      DB_NAME: no_smoking
+    volumes:
+      - ./models:/models
