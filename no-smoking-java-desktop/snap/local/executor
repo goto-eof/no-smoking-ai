@@ -1,5 +1,12 @@
 #!/bin/bash
-#
-# Script is a wrapper which runs application in a bash script with the needed options
-#
-exec $SNAP/bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djava.desktop.appName=$SNAP/meta/gui/no-smoking.desktop -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3  -jar $SNAP/jar/nosmoking.jar "$@"
+# JAVA_PATH=$(find $SNAPCRAFT_STAGE/usr/lib/jvm -name java -type f | head -n1)
+JAVA="$SNAP/usr/lib/jvm/java-21-openjdk-amd64/bin/java"
+exec "$JAVA" \
+  -Djava.util.prefs.userRoot="$SNAP_USER_DATA" \
+  -Dawt.useSystemAAFontSettings=on \
+  -Dswing.aatext=true \
+  -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel \
+  -Djava.desktop.appName=$SNAP/meta/gui/no-smoking.desktop \
+  -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel \
+  -Djdk.gtk.version=3 \
+  -jar $SNAP/jar/no-smoking.jar "$@"

@@ -20,7 +20,9 @@ configurations {
 }
 
 repositories {
-    mavenLocal()
+    flatDir {
+        dirs 'libs'
+    }
     mavenCentral()
 }
 
@@ -34,20 +36,18 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    implementation 'com.andreidodu:no-smoking-java-common:1.0.0'
+    implementation name: 'no-smoking-java-common-1.0.0'
 
     compileOnly 'org.mapstruct:mapstruct:1.6.2'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.1'
 
     implementation 'com.intellij:forms_rt:7.0.3'
 
-    // Core dependencies first
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.shell:spring-shell-starter'
 
 
-    // Testing libraries
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.shell:spring-shell-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -68,4 +68,10 @@ tasks.named('test') {
 
 bootRun {
     jvmArgs = ["-Djava.awt.headless=true"]
+}
+
+bootJar {
+    archiveBaseName.set('no-smoking')
+    archiveVersion.set('')
+    archiveClassifier.set('')
 }

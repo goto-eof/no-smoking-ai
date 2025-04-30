@@ -18,7 +18,7 @@ slots:
     bus: session
     name: it.es5.no-smoking.dbus
 apps:
-  no-smoking:
+  nosmoking:
     environment:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP_DESKTOP_RUNTIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gio/modules
     command: executor
@@ -49,18 +49,30 @@ parts:
     source: snap/local
     source-type: local
   application:
-    plugin: maven
+    plugin: nil
     source: .
     build-packages:
-      - on amd64: [ openjdk-11-jdk:amd64 ]
-      - on arm64: [ openjdk-11-jdk:arm64 ]
-      - maven
+      - on amd64: [ openjdk-21-jdk:amd64 ]
+      - on arm64: [ openjdk-21-jdk:arm64 ]
+      - gradle
     stage-packages:
       - glib-networking
       - libgtk-3-0
       - xdg-utils
-      - on amd64: [ openjdk-11-jre:amd64 ]
-      - on arm64: [ openjdk-11-jre:arm64 ]
+      - openjdk-21-jre
+      - on amd64: [ openjdk-21-jre:amd64 ]
+      - on arm64: [ openjdk-21-jre:arm64 ]
+    override-build: |
+      mkdir -p $SNAPCRAFT_PART_INSTALL/jar
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+      mkdir -p libs
+      cp $SNAPCRAFT_PROJECT_DIR/libs/no-smoking-java-common-1.0.0.jar libs/
+
+      ./gradlew bootJar --no-daemon
+
+      cp build/libs/no-smoking.jar $SNAPCRAFT_PART_INSTALL/jar/
+      cp snap/local/executor $SNAPCRAFT_PART_INSTALL/
+      chmod +x $SNAPCRAFT_PART_INSTALL/executor
     override-prime: |
       snapcraftctl prime
       rm -vf usr/lib/jvm/java-11-openjdk-*64/lib/security/blacklisted.certs
