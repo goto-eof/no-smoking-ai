@@ -28,4 +28,4 @@ sudo docker compose -f no-smoking-python-server/docker-compose.python-server.yml
 Java, Spring Boot, OpenFeign, hibernate, Spring JPA, Spring Security (OTP authentication), PostgreSQL, lombok, git,
 python, swing, Lombok.
 
-<img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=[https://github.com/goto-eof](https://github.com/goto-eof/no-smoking-ai)" onerror="this.style.display='none'" />
+<img src="https://andre-i.eu/api/v1/ipResource/custom.png?host=https://github.com/goto-eof/no-smoking-ai" onerror="this.style.display='none'" />
